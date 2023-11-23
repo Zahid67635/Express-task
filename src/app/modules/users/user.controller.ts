@@ -10,7 +10,7 @@ const createUser = async (req: Request, res: Response) => {
 
         res.status(200).json({
             success: true,
-            message: `User created successfully`,
+            message: `User created successfully!`,
             data: result
         })
     }
@@ -21,12 +21,57 @@ const createUser = async (req: Request, res: Response) => {
             message: error.issues[0].message,
             error: {
                 code: 500,
-                description: error.issues[0].message
+                description: error
+            }
+        })
+    }
+}
+const getUsers = async (req: Request, res: Response) => {
+    try {
+        const result = await userServices.getUserFromDB()
+        res.status(200).json({
+            success: true,
+            message: `User fetched successfully!`,
+            data: result
+        })
+    }
+    catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.issues[0].message,
+            error: {
+                code: 500,
+                description: error
+            }
+        })
+    }
+}
+const getAUser = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params
+        const result = await userServices.getAUserFromDB(Number(userId))
+        res.status(200).json({
+            success: true,
+            message: `User fetched successfully!`,
+            data: result
+        })
+    }
+    catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.issues[0].message,
+            error: {
+                code: 500,
+                description: error
             }
         })
     }
 }
 
+
+
+
+
 export const userControllers = {
-    createUser,
+    createUser, getUsers, getAUser
 }
