@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserModel } from "./user.model";
 import { TUser } from "./user.interface";
 
@@ -10,15 +12,33 @@ const getUserFromDB = async () => {
     return result;
 }
 const getAUserFromDB = async (userId: number) => {
-    const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1 });
-    return result;
+    if (await UserModel.isUserExists(userId)) {
+        const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1 });
+        return result;
+    }
+    throw new Error('User Not exists')
+
 }
 
 const deleteAUserFromDB = async (userId: number) => {
-    const result = await UserModel.deleteOne({ userId })
-    return result
+    if (await UserModel.isUserExists(userId)) {
+        const result = await UserModel.deleteOne({ userId })
+        return result
+    }
+    throw new Error('User Not exists')
+}
+
+const updateAUserFromDB = async (data: any) => {
+    if (await UserModel.isUserExists(data.userId)) {
+        const filter = { userId: data.userId }
+        const result = await UserModel.updateOne(filter, { ...data.updatedUser })
+        if (result) {
+            return data.updatedUser
+        }
+    }
+    throw new Error('User Not exists')
 }
 export const userServices = {
     createUserIntoDB,
-    getUserFromDB, getAUserFromDB, deleteAUserFromDB
+    getUserFromDB, getAUserFromDB, deleteAUserFromDB, updateAUserFromDB
 }

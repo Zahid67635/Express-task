@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import { Request, Response } from "express"
 import { userServices } from "./user.service"
@@ -60,7 +61,6 @@ const getAUser = async (req: Request, res: Response) => {
             data: result
         })
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (error: any) {
         res.status(500).json({
             success: false,
@@ -94,8 +94,29 @@ const deleteAUser = async (req: Request, res: Response) => {
         })
     }
 }
-
+const updateAUser = async (req: Request, res: Response) => {
+    try {
+        const updatedUser = req.body;
+        const { userId } = req.params
+        const data = { updatedUser, userId }
+        const result = await userServices.updateAUserFromDB(data)
+        res.status(200).json({
+            success: true,
+            message: `User updated successfully!`,
+            data: result
+        })
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            error: {
+                code: 500,
+                description: error.message
+            }
+        })
+    }
+}
 
 export const userControllers = {
-    createUser, getUsers, getAUser, deleteAUser
+    createUser, getUsers, getAUser, deleteAUser, updateAUser
 }
