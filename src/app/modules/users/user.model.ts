@@ -7,6 +7,7 @@ const userNameSchema = new Schema<TFullName>({
     firstName: {
         type: String,
         required: true,
+        minlength: 2
     },
     lastName: {
         type: String,
@@ -45,6 +46,7 @@ const UserSchema = new Schema<TUser>({
     userId: {
         type: Number,
         required: true,
+        unique: true
     },
     username: {
         type: String,
@@ -62,6 +64,7 @@ const UserSchema = new Schema<TUser>({
     email: {
         type: String,
         required: true,
+        unique: true
     },
     isActive: {
         type: Boolean,
@@ -88,7 +91,6 @@ UserSchema.pre('save', async function (next) {
 });
 
 UserSchema.post('save', function (doc, next) {
-    doc.password = ''
     next();
 });
 
