@@ -6,11 +6,11 @@ const createUserIntoDB = async (user: TUser) => {
     return result;
 }
 const getUserFromDB = async () => {
-    const result = await UserModel.find();
+    const result = await UserModel.find().select({ username: 1, fullName: 1, age: 1, email: 1, address: 1 });
     return result;
 }
 const getAUserFromDB = async (userId: number) => {
-    const result = await UserModel.findOne({ userId });
+    const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1 });
     return result;
 }
 

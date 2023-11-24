@@ -35,6 +35,7 @@ const getUsers = async (req: Request, res: Response) => {
             data: result
         })
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (error: any) {
         res.status(500).json({
             success: false,
@@ -50,25 +51,27 @@ const getAUser = async (req: Request, res: Response) => {
     try {
         const { userId } = req.params
         const result = await userServices.getAUserFromDB(Number(userId))
+        if (result == null) {
+            throw new Error(`user doesn't exists`)
+        }
         res.status(200).json({
             success: true,
             message: `User fetched successfully!`,
             data: result
         })
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (error: any) {
         res.status(500).json({
             success: false,
-            message: error.issues[0].message,
+            message: `user doesn't exists`,
             error: {
                 code: 500,
-                description: error
+                description: `user doesn't exists`
             }
         })
     }
 }
-
-
 
 
 
