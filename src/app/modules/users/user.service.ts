@@ -13,7 +13,7 @@ const getUserFromDB = async () => {
 }
 const getAUserFromDB = async (userId: number) => {
     if (await UserModel.isUserExists(userId)) {
-        const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1 });
+        const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1, orders: 1 });
         return result;
     }
     throw new Error('User Not exists')
@@ -38,7 +38,26 @@ const updateAUserFromDB = async (data: any) => {
     }
     throw new Error('User Not exists')
 }
+
+const addOrderToDB = async (data: any) => {
+    const userIdConverted = Number(data.userId)
+    if (await UserModel.isUserExists(userIdConverted)) {
+        const filter = { userId: Number(userIdConverted) }
+        const result = await UserModel.updateOne(filter, { $push: { orders: data.order } })
+        return result
+    }
+    throw new Error('User Not exists')
+}
+const getAUserOrdersDB = async (id: number) => {
+    if (await UserModel.isUserExists(id)) {
+        const result = await UserModel.findOne({ userId: id }).select({ orders: 1 })
+        return result
+    }
+    throw new Error('User Not exists')
+}
+
 export const userServices = {
     createUserIntoDB,
-    getUserFromDB, getAUserFromDB, deleteAUserFromDB, updateAUserFromDB
+    getUserFromDB, getAUserFromDB, deleteAUserFromDB, updateAUserFromDB, addOrderToDB,
+    getAUserOrdersDB
 }

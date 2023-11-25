@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 import { Request, Response } from "express"
@@ -117,6 +118,54 @@ const updateAUser = async (req: Request, res: Response) => {
     }
 }
 
+const addOrder = async (req: Request, res: Response) => {
+    try {
+        const order = req.body;
+        const { userId } = req.params
+        const data = { order, userId }
+        const result = await userServices.addOrderToDB(data)
+        if (result) {
+            res.status(200).json({
+                success: true,
+                message: `Order updated successfully!`,
+                data: null
+            })
+        }
+
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            error: {
+                code: 500,
+                description: error.message
+            }
+        })
+    }
+}
+
+const getAUserOrders = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params
+        const result = await userServices.getAUserOrdersDB(Number(userId))
+        res.status(200).json({
+            success: true,
+            message: `User fetched successfully!`,
+            data: result
+        })
+    }
+    catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            error: {
+                code: 500,
+                description: error.message
+            }
+        })
+    }
+}
+
 export const userControllers = {
-    createUser, getUsers, getAUser, deleteAUser, updateAUser
+    createUser, getUsers, getAUser, deleteAUser, updateAUser, addOrder, getAUserOrders
 }
