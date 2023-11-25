@@ -56,8 +56,32 @@ const getAUserOrdersDB = async (id: number) => {
     throw new Error('User Not exists')
 }
 
+const getTotalPriceFromDB = async (userId: number) => {
+    if (await UserModel.isUserExists(userId)) {
+        const result = await UserModel.aggregate([
+            { $match: { userId } },
+            { $unwind: '$orders' },
+            {
+                $group: {
+                    _id: '$userId',
+                    totalPrice: { $sum: { $multiply: ['$orders.price', '$orders.quantity'] } }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalPrice: { $sum: '$totalPrice' }
+                }
+            }
+        ])
+        return { totalPrice: result[0].totalPrice }
+    }
+    throw new Error('User Not exists')
+
+}
+
 export const userServices = {
     createUserIntoDB,
     getUserFromDB, getAUserFromDB, deleteAUserFromDB, updateAUserFromDB, addOrderToDB,
-    getAUserOrdersDB
+    getAUserOrdersDB, getTotalPriceFromDB
 }

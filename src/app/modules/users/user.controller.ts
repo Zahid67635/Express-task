@@ -166,6 +166,27 @@ const getAUserOrders = async (req: Request, res: Response) => {
     }
 }
 
+const getTotalPrice = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.params
+        const result = await userServices.getTotalPriceFromDB(Number(userId))
+        res.status(200).json({
+            success: true,
+            message: `User fetched successfully!`,
+            data: result
+        })
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            message: error.message,
+            error: {
+                code: 500,
+                description: error.message
+            }
+        })
+    }
+}
+
 export const userControllers = {
-    createUser, getUsers, getAUser, deleteAUser, updateAUser, addOrder, getAUserOrders
+    createUser, getUsers, getAUser, deleteAUser, updateAUser, addOrder, getAUserOrders, getTotalPrice
 }
