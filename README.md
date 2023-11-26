@@ -3,6 +3,10 @@
 
 This is an Express application with CRUD operations.
 
+##Live-Link 
+
+https://assignment-2-phi-ruddy.vercel.app/
+
 ## Prerequisites
 
 Ensure you have the following installed before running the application:
