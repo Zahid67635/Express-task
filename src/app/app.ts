@@ -8,6 +8,9 @@ app.use(express.json());
 app.use(cors());
 
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the CRUD operations')
+})
 app.use('/api/users', userRoutes)
 
 export default app;
