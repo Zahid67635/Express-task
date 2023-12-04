@@ -3,9 +3,22 @@
 
 This is an Express application with CRUD operations.
 
-##Live-Link 
+## Live-Link 
 
 https://assignment-2-phi-ruddy.vercel.app/
+
+
+## End-Points:
+
+- /api/users(POST) [Create a user]
+- /api/users(GET) [Get all users]
+- /api/users/:userId(GET) [Get a user info]
+- /api/users/:userId(PUT) [Update a user]
+- /api/users/:userId(DELETE) [Delete a user]
+- /api/users/:userId/orders(PUT) [Add New Product in Order]
+- /api/users/:userId/orders(GET) [Retrieve all orders for a specific user]
+- /api/users/:userId/orders/total-price(GET) [Calculate Total Price of Orders for a Specific User]
+
 
 ## Prerequisites
 
