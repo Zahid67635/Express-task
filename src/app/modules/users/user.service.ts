@@ -13,7 +13,7 @@ const getUserFromDB = async () => {
 }
 const getAUserFromDB = async (userId: number) => {
     if (await UserModel.isUserExists(userId)) {
-        const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1, orders: 1 });
+        const result = await UserModel.findOne({ userId }).select({ userId: 1, username: 1, fullName: 1, age: 1, email: 1, address: 1, isActive: 1, hobbies: 1 });
         return result;
     }
     throw new Error('User Not exists')
