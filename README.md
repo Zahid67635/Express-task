@@ -5,7 +5,7 @@ This is an Express application with CRUD operations.
 
 ## Live-Link 
 
-https://assignment-2-phi-ruddy.vercel.app/
+https://type-practice.vercel.app/
 
 
 ## End-Points:
